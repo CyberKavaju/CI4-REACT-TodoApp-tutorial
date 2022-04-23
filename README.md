@@ -326,15 +326,24 @@ public $globals = [
 ## Instalar node.js
 [Tutorial para instalar Node.js](https://www.digitalocean.com/community/tutorials/how-to-install-node-js-on-ubuntu-20-04)
 ## Instalar npm
+```bash
 sudo apt install npm
-Instalar react.js
+```
+## Instalar react.js
+```bash
 npx create-react-app frontend
-Generar Componente CRUD
-install bootstrap
+```
+## Generar Componente CRUD
+ install bootstrap
+```bash
 npm install --save bootstrap
-Llamar en el index.js
+```
+ Llamar bootstrap en el index.js
+```js
 import 'bootstrap/dist/css/bootstrap.min.css';
-Generar App.js
+```
+## Generar App.js
+```js
 import {useEffect, useState} from 'react';
 import TaskForm from "./componets/TaskForm";
 import Tasks from "./componets/Tasks";
@@ -364,7 +373,9 @@ function App() {
 }
  
 export default App;
-Generar Tasks.js
+```
+## Generar Tasks.js
+```js
 import BtnBorrar from "./BtnBorrar";
 import BtnEcho from "./BtnEcho";
  
@@ -386,7 +397,9 @@ const Tasks = ({tasks, getTasks}) => {
 }
  
 export default Tasks;
-Generate TaskForm.js
+```
+## Generate TaskForm.js
+```js
 import {useState} from 'react';
 const TaskForm = (props) => {
   const [titulo, setTitulo] = useState('');
@@ -443,7 +456,9 @@ const TaskForm = (props) => {
 }
  
 export default TaskForm;
-Generar BtnEcho.js
+```
+## Generar BtnEcho.js
+```js
 const BtnEcho = (props) => {
   //cange the state of the task
   const handleEcho = async (id) => {
@@ -470,7 +485,9 @@ const BtnEcho = (props) => {
 }
  
 export default BtnEcho;
-Generar BtnBorrar.js
+```
+## Generar BtnBorrar.js
+```js
 const BtnBorrar = (props) => {
   const handleDelete = async (id) => {
     const response = await fetch('http://localhost:8080/tareas/delete/'+id, {
@@ -489,6 +506,7 @@ const BtnBorrar = (props) => {
 }
  
 export default BtnBorrar;
+```
 ## Generar index.css
 ```css
 .taskList{
