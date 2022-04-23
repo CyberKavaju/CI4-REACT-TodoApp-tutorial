@@ -1,0 +1,25 @@
+.taskList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.taskList li {
+  padding: 0.25em 0;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.taskList li span {
+  font-weight: bolder;
+}
+
+.taskList li button {
+  margin-left: 1em;
+}
+
+.addTask {
+  margin-top: 1em;
+  padding: 0.25em 0;
+  border-top: 1px solid #e5e5e5;
+  border-bottom: 1px solid #e5e5e5;
+}
