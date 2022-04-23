@@ -102,10 +102,13 @@ Configurations
    protected $deletedField  = 'deleted_at';
 ...
 ```
-Generar Controlador
+## Generar Controlador
 Generar controlador con la terminal
+```bash
 php spark make:controller Tareas --restful
-Configurar coneccion al modelo
+```
+## Configurar coneccion al modelo
+```php
 …
 use App\Models\TareaModel;
 class Tareas extends ResourceController
@@ -116,19 +119,24 @@ class Tareas extends ResourceController
        $this->model = new TareaModel();
    }
 …
-
-Generar index
+```
+## Generar index
+```php
 public function index()
 {
         return $this->respond($this->model->findAll());
 }
-Generar read
+```
+## Generar read
+```php
 public function show($id = null)
 {
         return $this->respond($this->model->find($id));
 }
-Generar create
- public function create()
+```
+## Generar create
+```php
+public function create()
 {
         $rules = [
             'titulo' => 'required|min_length[3]|max_length[255]',
@@ -164,7 +172,9 @@ Generar create
             return $this->respondCreated($response);
         }
 }
-Generar update
+```
+## Generar update
+```php
 public function update($id = null)
 {
     $tarea = $this->model->find($id);
@@ -181,7 +191,6 @@ public function update($id = null)
             'descripcion' => 'required|min_length[3]|max_length[255]',
             'fecha_inicio' => 'required|min_length[3]|max_length[255]',
             'fecha_fin' => 'required|min_length[3]|max_length[255]',
-            'estado' => 'required',
         ];
         if (!$this->validate($rules)) {
             return $this->fail($this->validator->getErrors());
@@ -191,6 +200,47 @@ public function update($id = null)
             'descripcion' => $this->request->getVar('descripcion'),
             'fecha_inicio' => $this->request->getVar('fecha_inicio'),
             'fecha_fin' => $this->request->getVar('fecha_fin'),
+            'estado' => '0',
+        ];
+        if($this->model->update($id, $data)){
+            $response = [
+                'status' => true,
+                'message' => 'Tarea actualizada correctamente',
+                'data' => $this->model->find($id)
+            ];
+            return $this->respondCreated($response);
+        }else{
+            $response = [
+                'status' => false,
+                'message' => 'Error al actualizar la tarea',
+                //get the error data
+                'data' => $this->model->errors()
+            ];
+            return $this->respondCreated($response);
+        }
+  }
+}
+```
+## Generar done
+```php
+public function update($id = null)
+{
+    $tarea = $this->model->find($id);
+        if(!$tarea){
+            $response = [
+                'status' => false,
+                'message' => 'Tarea no encontrada',
+                'data' => $this->model->errors()
+            ];
+            return $this->respondCreated($response);
+        }else {
+        $rules = [
+            'estado' => 'required',
+        ];
+        if (!$this->validate($rules)) {
+            return $this->fail($this->validator->getErrors());
+        }
+        $data = [
             'estado' => $this->request->getVar('estado'),
         ];
         if($this->model->update($id, $data)){
@@ -209,9 +259,11 @@ public function update($id = null)
             ];
             return $this->respondCreated($response);
         }
+  }
 }
-}
-Generar delete
+```
+## Generar delete
+```php
 public function delete($id = null)
 {
         if($this->model->delete($id)){
@@ -231,24 +283,33 @@ public function delete($id = null)
             return $this->respondCreated($response);
         }
 }
-Habilitar filtro CORS
+```
+## Habilitar filtro CORS
+```bash
 php spark make:filter Cors
+```
 insertar en método BEFORE
+```php
+...
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: X-API-KEY, Origin,X-Requested-With, Content-Type, Accept, Access-Control-Requested-Method, Authorization");
 header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PATCH, PUT, DELETE");
 $method = $_SERVER['REQUEST_METHOD'];
 if($method == "OPTIONS"){die();}
+...
+```
 Llamar datos en app/Config/Filters.php 
+```php
+...
 use App\Filters\Cors;
-…
+...
 public $aliases = [
      'csrf'     => CSRF::class,
      'toolbar'  => DebugToolbar::class,
      'honeypot' => Honeypot::class,
      'cors'     => Cors::class,  
 ];
-…
+...
 public $globals = [
     'before' => [
         // 'honeypot',
@@ -260,10 +321,11 @@ public $globals = [
         // 'honeypot',
     ],
 ];
- 
-Instalar node.js
-https://www.digitalocean.com/community/tutorials/how-to-install-node-js-on-ubuntu-20-04
-Instalar npm
+...
+```
+## Instalar node.js
+[Tutorial para instalar Node.js](https://www.digitalocean.com/community/tutorials/how-to-install-node-js-on-ubuntu-20-04)
+## Instalar npm
 sudo apt install npm
 Instalar react.js
 npx create-react-app frontend
